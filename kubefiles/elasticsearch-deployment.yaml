@@ -1,3 +1,18 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: elasticsearch-pv-claim
+  namespace: tools
+  labels:
+    type: amazonEBS
+spec:
+  volumeName: elk-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 36Gi
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -20,6 +35,13 @@ spec:
         name: elasticsearch
         ports:
         - containerPort: 9200
+        volumeMounts:
+        - mountPath: /usr/share/elasticsearch/data
+          name: elasticsearch-data
         resources: {}
+      volumes:
+      - name: elasticsearch-data
+        persistentVolumeClaim:
+          claimName: elasticsearch-pv-claim
       restartPolicy: Always
 status: {}
