@@ -27,6 +27,14 @@ spec:
       labels:
         name: elasticsearch
     spec:
+      initContainers:
+      - name: init
+        image: busybox
+        command: ['sh', '-c', 'mkdir -p /usr/share/elasticsearch/data || echo "Dir exists" ; chmod a+rwx /usr/share/elasticsearch/data || echo "Could not set perms"; sleep 60']
+        volumeMounts:
+        - mountPath: /usr/share/elasticsearch/data
+          name: elasticsearch-data
+
       containers:
       - env:
         - name: ES_JAVA_OPTS
