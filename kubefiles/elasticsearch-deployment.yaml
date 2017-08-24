@@ -13,7 +13,7 @@
 #  awsElasticBlockStore:
 #    volumeID: vol-0f2d2de70b4b8c4f1
 #    fsType: ext4
----
+#---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
